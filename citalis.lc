@@ -1,0 +1,301 @@
+<?lc
+
+
+local appLocalVars
+put the milliseconds into appLocalVars["citalis_start"]
+put url ("file:citalis_lc.html") into appLocalVars["citalis_tmp"]
+put "mysql" into appLocalVars["targetDB"]
+set the socketTimeoutInterval to "10000"
+
+
+function sentencesNumber tnum
+	if tnum > 1
+	then return tnum && "sentences"
+	else return tnum && "sentence"
+end sentencesNumber
+
+
+function trim pData
+	return word 1 to -1 of pData
+end trim
+
+
+function setquotetosingle str
+  replace quote with "'" in str
+  return str
+end setquotetosingle
+
+
+function setquote str
+	return quote & str & quote
+end setquote
+
+
+function stripsinglequote str
+	get trim(str)
+	if char -1 of it is "'"
+	then delete char -1 of it
+	if char 1 of it is "'"
+	then delete char 1 of it
+	return it
+end stripsinglequote
+
+
+-- UTF-8 ENCODING AND DECODING IN RUNTIME REVOLUTION adapted for RunRev from 
+-- http://www.webtoolkit.info/javascript-utf8.html by Michael Kuyumcu, info@noemanetz.de
+
+
+function utf8_encode t
+   put "" into utftext -- the utf-8-encoded text to be returned from the function
+   replace return with numToChar(10) in t -- replace all return characters with newline characters
+   repeat with charno = 1 to the length of t
+      put charToNum(the character charno of t) into c -- put the character code of c into 
+      if c < 128 
+      then put utftext & numToChar(c) into utftext
+      else if c > 127 and c < 2048 
+      then put utftext & numToChar((c div 64) bitOr 192) & numToChar((c bitAnd 63) bitOr 128) into utftext                  
+      else put utftext & numToChar((c div 4096) bitOr 224) & numToChar(((c div 64) bitAnd 63) bitOr 128) & numToChar((c bitAnd 63) bitOr 128) into utftext    
+   end repeat
+   return utftext
+end utf8_encode
+
+
+function utf8_decode utftext
+   put "" into t -- our result string
+   put 1 into i
+   repeat until i > the length of utftext -- step through the text
+      put charToNum(the character i of utftext) into c
+      if c < 128 then
+         put t & numToChar(c) into t
+         add 1 to i
+      else if c > 191 and c < 224 then
+         put charToNum(character i+1 of utftext) into c2
+         put t & numToChar(((c bitAnd 31) * 64) bitOr (c2 bitAnd 63)) into t
+         add 2 to i
+      else
+         put charToNum(character i+1 of utftext) into c2
+         put charToNum(character i+2 of utftext) into c3
+         put t & charToNum(((c bitAnd 15) * 4096) bitOr ((c2 bitAnd 63) * 64) bitOr ((c3 bitAnd 63) * 64)) into t
+         add 3 to i
+      end if
+   end repeat
+   return t
+end utf8_decode
+
+
+function vignette_template tparam1, tparam2
+  get random("8") & "," & random("100") + 270
+  return "<article class=" & setquote("item thumb") & " data-width=" & setquote(item 2 of it) & " data-value=" & \
+  	setquote(setquotetosingle(tparam2) & "</br >" & tparam1) & "><div class=" & setquote("citation") & " style=" & \
+  	setquote("background-image: url(images/thumbs/0" & item 1 of it & ".jpg)") & ">" & setquotetosingle(tparam2) & \
+  	"</div><h7><a href=" & setquote("#") & " onclick=" & setquote("javascript:$('.image').click();") & " class=" & \ 
+  	setquote("icon fa-arrows-alt") & "><span class=" & setquote("label") & ">Detail</span></a></h7>" & \
+  	"<h2><input class=" & setquote("ccategories") & " type=" & setquote("submit") & " name=" & setquote("search") & \
+  	" value=" & setquote(tparam1) & "></h2><a href=" & setquote("images/fulls/0" & item 1 of it & ".jpg") & \
+    " class=" & setquote("image") & " alt=" & setquote("") & "><img src=" & setquote("images/thumbs/0" & \
+    item 1 of it & ".jpg") & " alt=" & setquote("") & "></a></article>"
+end vignette_template
+
+
+function post_Response trequest -- app main -- livecode's postgresql/mysql drivers
+   
+    get connectDB(appLocalVars["targetDB"])
+      
+    if "home=random" is trim(trequest) then
+        
+        put revDataFromQuery(comma, return, appLocalVars["myDatabaseID"], "SELECT DISTINCT concept FROM citations ORDER BY concept") into appLocalVars["tCategories"]
+        repeat for each line l in appLocalVars["tCategories"]
+            add 1 to tCompteur
+            if appLocalVars["targetDB"] is not "mysql"
+            then put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = '" & l & "' ORDER BY RANDOM() LIMIT 1"))) & return after fromDB
+            else put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = " & quote & l & quote && "ORDER BY RAND() LIMIT 1"))) & return after fromDB
+        end repeat
+        
+    else if "concept=random" is trim(trequest) then
+        
+        if appLocalVars["targetDB"] is not "mysql" then 
+            put revDataFromQuery(comma, return, appLocalVars["myDatabaseID"], "SELECT concept FROM citations ORDER BY RANDOM() LIMIT 1") into l
+            put revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = '" & l & "' ORDER BY auteur, titre") into tconcept
+        else 
+            put revDataFromQuery(comma, return, appLocalVars["myDatabaseID"], "SELECT concept FROM citations ORDER BY RAND() LIMIT 1") into l
+            put revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = " & quote & l & quote && "ORDER BY auteur, titre") into tconcept
+        end if
+        repeat for each line l2 in tconcept
+            add 1 to tCompteur
+            if appLocalVars["targetDB"] is not "mysql" 
+            then put vignette_template(utf8_decode(l), utf8_decode(l2)) & return after fromDB
+            else put vignette_template(utf8_decode(l), utf8_decode(l2)) & return after fromDB
+        end repeat
+        
+    else if "auteur=extract" is trim(trequest) then
+        
+       	put revDataFromQuery(comma, return, appLocalVars["myDatabaseID"], "SELECT DISTINCT auteur FROM citations ORDER BY auteur") into appLocalVars["tAuteurs"]
+       	repeat for each line l in appLocalVars["tAuteurs"]
+        	put trim(stripsinglequote(l)) into searchPattern
+            add 1 to tCompteur
+            if appLocalVars["targetDB"] is not "mysql" 
+            then put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE UPPER(auteur) LIKE '%" & toUpper(searchPattern) & "%' ORDER BY concept, titre LIMIT 1"))) & return after fromDB
+            else put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE UPPER(auteur) LIKE '%" & toUpper(searchPattern) & "%' ORDER BY concept, titre LIMIT 1"))) & return after fromDB
+        end repeat
+        
+    else if "auteur=random" is trim(trequest) then
+        
+        if appLocalVars["targetDB"] is not "mysql" then 
+            put revDataFromQuery(comma, return, appLocalVars["myDatabaseID"], "SELECT auteur FROM citations ORDER BY RANDOM() LIMIT 1") into l
+         	put revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE auteur = '" & l & "' ORDER BY auteur, titre") into tauteur
+        else 
+            put revDataFromQuery(comma, return, appLocalVars["myDatabaseID"], "SELECT auteur FROM citations ORDER BY RAND() LIMIT 1") into l
+            put revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE auteur = " & quote & l & quote && "ORDER BY auteur, titre") into tauteur
+        end if
+        repeat for each line l2 in tauteur
+            add 1 to tCompteur
+            if appLocalVars["targetDB"] is not "mysql" 
+            then put vignette_template(utf8_decode(l), utf8_decode(l2)) & return after fromDB
+            else put vignette_template(utf8_decode(l), utf8_decode(l2)) & return after fromDB
+        end repeat
+        
+    else if "date=extract" is trim(trequest) then
+        
+        put revDataFromQuery(comma, return, appLocalVars["myDatabaseID"], "SELECT DISTINCT date FROM citations WHERE date != '' ORDER BY date") into appLocalVars["tDates"]
+        repeat for each line l in appLocalVars["tDates"]
+            add 1 to tCompteur
+            if appLocalVars["targetDB"] is not "mysql" 
+            then put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE date = '" & l & "' ORDER BY concept, titre"))) & return after fromDB
+            else put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE date = " & quote & l & quote && "ORDER BY concept, titre"))) & return after fromDB
+        end repeat
+        
+    else if "date=random" is trim(trequest) then
+        
+        if appLocalVars["targetDB"] is not "mysql" then 
+            put revDataFromQuery(comma, return, appLocalVars["myDatabaseID"], "SELECT date FROM citations WHERE date != '' ORDER BY RANDOM() LIMIT 1") into l
+            put revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE date = '" & l & "' ORDER BY auteur, titre") into tdate
+        else 
+            put revDataFromQuery(comma, return, appLocalVars["myDatabaseID"], "SELECT date FROM citations WHERE date != '' ORDER BY RAND() LIMIT 1") into l
+            put revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE date = " & quote & l & quote && "ORDER BY auteur, titre") into tdate
+        end if
+        repeat for each line l2 in tdate
+            add 1 to tCompteur
+            if appLocalVars["targetDB"] is not "mysql" 
+            then put vignette_template(utf8_decode(l), utf8_decode(l2)) & return after fromDB
+            else put vignette_template(utf8_decode(l), utf8_decode(l2)) & return after fromDB
+        end repeat
+        
+    else if "search=" is char 1 to length("search=") of trequest then -- don't forget to escape "value"
+        
+        put utf8_encode(trim(char 1+length("search=") to -1 of trequest)) into searchString
+        put utf8_encode(trim(char 1+length("search=") to -1 of stripsinglequote(trequest))) into searchPattern
+        
+        if length(searchPattern) > 4 or (searchPattern is a number and  length(searchPattern) > 3) then
+            
+            if trim(appLocalVars["tSearch_" & searchPattern]) is "" then -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+                if appLocalVars["targetDB"] is not "mysql" then 
+                    put revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE citation ILIKE '%" & searchPattern & "%' " & \
+                          "OR auteur ILIKE '%" & searchPattern & "%' OR concept ILIKE '%" & searchPattern & "%' OR titre ILIKE '%" & searchPattern & "%' OR comment ILIKE '%" & searchPattern & "%' " & \
+                          "OR date ILIKE '%" & searchPattern & "%' ORDER BY concept, titre") into searchReturn
+                else
+                    put revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE UPPER(citation) LIKE '%" & toUpper(searchPattern) & "%' " & \
+                          "OR UPPER(auteur) LIKE '%" & toUpper(searchPattern) & "%' OR UPPER(concept) LIKE '%" & toUpper(searchPattern) & "%' OR UPPER(titre) LIKE '%" & toUpper(searchPattern) & "%' " & \
+                          "OR UPPER(comment) LIKE '%" & toUpper(searchPattern) & "%' OR UPPER(date) LIKE '%" & toUpper(searchPattern) & "%' ORDER BY concept, titre") into searchReturn
+                end if
+                repeat for each line l in searchReturn
+                    add 1 to tCompteur
+                    replace "," with "<br />" in l
+                    if appLocalVars["targetDB"] is not "mysql" 
+                    then put vignette_template(utf8_decode(searchString), utf8_decode(l)) & return after fromDB
+                    else put vignette_template(utf8_decode(searchString), utf8_decode(l)) & return after fromDB
+                end repeat
+                put fromDB into appLocalVars["tSearch_" & searchPattern]
+            else 
+                put appLocalVars["tSearch_" & searchPattern] into fromDB
+                put the num of lines in trim(fromDB) into tCompteur
+            end if
+            
+        else
+            
+            put "Critères de recherche inadéquats..." into fromDB
+            put "1" into tCompteur
+            
+        end if
+        
+    else put "Error 404, File not found" into fromDB
+    
+    revCloseDatabase(appLocalVars["myDatabaseID"])
+    
+    replace "<br /><br />" with "<br />" in fromDB
+    put fromDB into appLocalVars["fromDB"]
+    
+    if tCompteur > 1
+    then put tCompteur && "sentences" into appLocalVars["tCompteur"]
+    else put tCompteur && "sentence" into appLocalVars["tCompteur"]
+    
+    get setOutput()
+    
+end post_Response
+
+
+function get_Response -- app initer -- livecode's postgresql/mysql drivers
+    
+	get connectDB(appLocalVars["targetDB"])
+	put revDataFromQuery(comma, return, appLocalVars["myDatabaseID"], "SELECT DISTINCT concept FROM citations ORDER BY concept") into appLocalVars["tCategories"] 
+	repeat for each line l in appLocalVars["tCategories"]
+		add 1 to tCompteur
+		if appLocalVars["targetDB"] is not "mysql"
+		then put vignette_template(l, revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = '" & l & "' ORDER BY RANDOM() LIMIT 1")) & return after fromDB
+		else put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appLocalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = " & quote & l & quote && "ORDER BY RAND() LIMIT 1"))) & return after fromDB
+	end repeat
+	revCloseDatabase(appLocalVars["myDatabaseID"])
+	replace "<br /><br />" with "<br />" in fromDB
+	put fromDB into appLocalVars["fromDB"]
+	if tCompteur > 1
+	then put tCompteur && "sentences" into appLocalVars["tCompteur"]
+	else put tCompteur && "sentence" into appLocalVars["tCompteur"]
+    get setOutput()
+	
+end get_Response
+
+
+/* function get_Response -- app initer -- nginx's postgresql driver
+
+	#put url ("http://localhost/redis.get?key=citalis_concepts") into appLocalVars["fromDB"]
+	#if trim(appLocalVars["fromDB"]) is "$-1" then -- LC CGI lots too slow for Redis usability --> calc times addition --
+
+	put url ("http://localhost/citalis.concepts_lc") into appLocalVars["concepts_list"]
+	put "0" into appLocalVars["concepts_compteur"]
+	repeat for each line l in appLocalVars["concepts_list"]
+		add 1 to appLocalVars["concepts_compteur"]
+		put vignette_template(utf8_decode(l), utf8_decode(url ("http://localhost/citalis.citations.random.text?concept=" & l))) & return after appLocalVars["fromDB"]
+	end repeat
+	replace "<br /><br />" with "<br />" in appLocalVars["fromDB"]
+	
+	#else put utf8_decode(line 2 to -1 of appLocalVars["fromDB"]) into appLocalVars["fromDB"]
+	
+	get setOutput()
+	
+end get_Response */
+
+
+function setOutput
+	replace "{{message1}}</li><li>{{message2}}</li><li>{{message3}}" with "" & \
+		appLocalVars["tCompteur"] & "</li><li>" in appLocalVars["citalis_tmp"]
+	replace "{*message4*}" with appLocalVars["fromDB"] in appLocalVars["citalis_tmp"]
+	put appLocalVars["citalis_tmp"]
+end setOutput
+
+
+function connectDB targetDB
+  if targetDB is not "mysql"
+  then put revOpenDatabase ("postgresql", "localhost:5432", "citalis", "user", "pass") into appLocalVars["myDatabaseID"]
+  else put revOpenDatabase ("mysql", "localhost", "ua883838_citalis", "ua883838_citalis", "oscar.64") into appLocalVars["myDatabaseID"]
+  if appLocalVars["myDatabaseID"] is not a number 
+  then return "There was an error connecting to the SQL database!" && appLocalVars["myDatabaseID"]
+  else
+    if targetDB is not "mysql" -- postgresql only --
+    then revExecuteSQL appLocalVars["myDatabaseID"],"SET client_encoding TO 'LATIN1';"
+    return appLocalVars["myDatabaseID"]
+  end if
+end connectDB
+
+
+if $_POST_RAW is ""
+then get get_Response()
+else get post_Response(urlDecode($_POST_RAW))
