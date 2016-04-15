@@ -1,0 +1,10 @@
+global appGlobalVars
+
+on preopenstack
+    set the tool to "browse"
+    set the lookandfeel to "motif"
+    set itemdel to "/"
+    put the filename of this stack into appGlobalVars["server_name"]
+    set the directory to ("/" & item 1 to -2 of appGlobalVars["server_name"])
+    go stack the directory & "/arsheos_service.livecode"
+end preopenstack

@@ -1,0 +1,470 @@
+global appGlobalVars
+
+
+####### app's queries : top #########
+
+
+function post_Response trequest -- app main -- livecode's postgresql/mysql drivers
+    
+    get connectDB(appGlobalVars["targetDB"])
+    
+    if "method=_POST&home=random" is trim(trequest) then
+        
+        if trim(appGlobalVars["tCategories"]) is "" -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+        then put revDataFromQuery(comma, return, appGlobalVars["myDatabaseID"], "SELECT DISTINCT concept FROM citations ORDER BY concept") into appGlobalVars["tCategories"]
+        repeat for each line l in appGlobalVars["tCategories"]
+            add 1 to tCompteur
+            if appGlobalVars["targetDB"] is not "mysql"
+            then put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = '" & l & "' ORDER BY RANDOM() LIMIT 1"))) & return after fromDB
+            else put vignette_template(l, revDataFromQuery("<br /><br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = " & quote & l & quote && "ORDER BY RAND() LIMIT 1")) & return after fromDB
+        end repeat
+        
+    else if "method=_POST&concept=random" is trim(trequest) then
+        
+        if appGlobalVars["targetDB"] is not "mysql" then 
+            put revDataFromQuery(comma, return, appGlobalVars["myDatabaseID"], "SELECT concept FROM citations ORDER BY RANDOM() LIMIT 1") into l
+            --  to add below -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+            put revDataFromQuery("<br /><br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = '" & l & "' ORDER BY auteur, titre") into tconcept
+        else 
+            put revDataFromQuery(comma, return, appGlobalVars["myDatabaseID"], "SELECT concept FROM citations ORDER BY RAND() LIMIT 1") into l
+            --  to add below -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+            put revDataFromQuery("<br /><br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = " & quote & l & quote && "ORDER BY auteur, titre") into tconcept
+        end if
+        repeat for each line l2 in tconcept
+            add 1 to tCompteur
+            if appGlobalVars["targetDB"] is not "mysql" 
+            then put vignette_template(utf8_decode(l), utf8_decode(l2)) & return after fromDB
+            else put vignette_template(l, l2) & return after fromDB
+        end repeat
+        
+    else if "method=_POST&auteur=extract" is trim(trequest) then
+        
+        if trim(appGlobalVars["tAuteurs"]) is "" -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+        then put revDataFromQuery(comma, return, appGlobalVars["myDatabaseID"], "SELECT DISTINCT auteur FROM citations ORDER BY auteur") into appGlobalVars["tAuteurs"]
+        repeat for each line l in appGlobalVars["tAuteurs"]
+            put trim(stripsinglequote(l)) into searchPattern
+            add 1 to tCompteur
+            if appGlobalVars["targetDB"] is not "mysql" 
+            then put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE UPPER(auteur) LIKE  '%" & toUpper(searchPattern) & "%' ORDER BY concept, titre LIMIT 1"))) & return after fromDB
+            else put vignette_template(l, revDataFromQuery("<br /><br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE UPPER(auteur) LIKE  '%" & toUpper(searchPattern) & "%' ORDER BY concept, titre LIMIT 1")) & return after fromDB
+        end repeat
+        
+    else if "method=_POST&auteur=random" is trim(trequest) then
+        
+        if appGlobalVars["targetDB"] is not "mysql" then 
+            put revDataFromQuery(comma, return, appGlobalVars["myDatabaseID"], "SELECT auteur FROM citations ORDER BY RANDOM() LIMIT 1") into l
+            --  to add below -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+            put revDataFromQuery("<br /><br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE auteur = '" & l & "' ORDER BY auteur, titre") into tauteur
+        else 
+            put revDataFromQuery(comma, return, appGlobalVars["myDatabaseID"], "SELECT auteur FROM citations ORDER BY RAND() LIMIT 1") into l
+            --  to add below -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+            put revDataFromQuery("<br /><br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE auteur = " & quote & l & quote && "ORDER BY auteur, titre") into tauteur
+        end if
+        repeat for each line l2 in tauteur
+            add 1 to tCompteur
+            if appGlobalVars["targetDB"] is not "mysql" 
+            then put vignette_template(utf8_decode(l), utf8_decode(l2)) & return after fromDB
+            else put vignette_template(l, l2) & return after fromDB
+        end repeat
+        
+    else if "method=_POST&date=extract" is trim(trequest) then
+        
+        if trim(appGlobalVars["tDates"]) is "" -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+        then put revDataFromQuery(comma, return, appGlobalVars["myDatabaseID"], "SELECT DISTINCT date FROM citations WHERE date != '' ORDER BY date") into appGlobalVars["tDates"]
+        repeat for each line l in appGlobalVars["tDates"]
+            add 1 to tCompteur
+            if appGlobalVars["targetDB"] is not "mysql" 
+            then put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE date = '" & l & "' ORDER BY concept, titre"))) & return after fromDB
+            else put vignette_template(l, revDataFromQuery("<br /><br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE date = '" & l & "' ORDER BY concept, titre")) & return after fromDB
+        end repeat
+        
+    else if "method=_POST&date=random" is trim(trequest) then
+        
+        if appGlobalVars["targetDB"] is not "mysql" then 
+            put revDataFromQuery(comma, return, appGlobalVars["myDatabaseID"], "SELECT date FROM citations WHERE date != '' ORDER BY RANDOM() LIMIT 1") into l
+            -- to add below -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+            put revDataFromQuery("<br /><br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE date = '" & l & "' ORDER BY auteur, titre") into tdate
+        else 
+            put revDataFromQuery(comma, return, appGlobalVars["myDatabaseID"], "SELECT date FROM citations WHERE date != '' ORDER BY RAND() LIMIT 1") into l
+            -- to add below -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+            put revDataFromQuery("<br /><br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE date = " & quote & l & quote && "ORDER BY auteur, titre") into tdate
+        end if
+        repeat for each line l2 in tdate
+            add 1 to tCompteur
+            if appGlobalVars["targetDB"] is not "mysql" 
+            then put vignette_template(utf8_decode(l), utf8_decode(l2)) & return after fromDB
+            else put vignette_template(l, l2) & return after fromDB
+        end repeat
+        
+    else if "method=_POST&search=" is char 1 to length("method=_POST&search=") of trequest then -- don't forget to escape "value"
+        
+        put trim(char 1+length("method=_POST&search=") to -1 of trequest) into searchString
+        put trim(char 1+length("method=_POST&search=") to -1 of stripsinglequote(trequest)) into searchPattern
+        
+        if length(searchPattern) > 4 or (searchPattern is a number and  length(searchPattern) > 3) then
+            
+            if trim(appGlobalVars["tSearch_" & searchPattern]) is "" then -- max speed test conf (comment to disable) --> Redis alike RAM cached response --
+                if appGlobalVars["targetDB"] is not "mysql" then 
+                    put revDataFromQuery("<br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE citation ILIKE '%" & searchPattern & "%' " & \
+                          "OR auteur ILIKE '%" & searchPattern & "%' OR concept ILIKE '%" & searchPattern & "%' OR titre ILIKE '%" & searchPattern & "%' OR comment ILIKE '%" & searchPattern & "%' " & \
+                          "OR date ILIKE '%" & searchPattern & "%' ORDER BY concept, titre") into searchReturn
+                else
+                    put revDataFromQuery("<br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment, concept FROM citations WHERE UPPER(citation) LIKE '%" & toUpper(searchPattern) & "%' " & \
+                          "OR UPPER(auteur) LIKE '%" & toUpper(searchPattern) & "%' OR UPPER(concept) LIKE '%" & toUpper(searchPattern) & "%' OR UPPER(titre) LIKE '%" & toUpper(searchPattern) & "%' " & \
+                          "OR UPPER(comment) LIKE '%" & toUpper(searchPattern) & "%' OR UPPER(date) LIKE '%" & toUpper(searchPattern) & "%' ORDER BY concept, titre") into searchReturn
+                end if
+                repeat for each line l in searchReturn
+                    add 1 to tCompteur
+                    replace "," with "<br /><br />" in l
+                    if appGlobalVars["targetDB"] is not "mysql" 
+                    then put vignette_template(utf8_decode(searchString), utf8_decode(l)) & return after fromDB
+                    else put vignette_template(searchString, l) & return after fromDB
+                end repeat
+                put fromDB into appGlobalVars["tSearch_" & searchPattern]
+            else 
+                put appGlobalVars["tSearch_" & searchPattern] into fromDB
+                put the num of lines in trim(fromDB) into tCompteur
+            end if
+            
+        else
+            
+            put "Critères de recherche inadéquats..." into fromDB
+            put "1" into tCompteur
+            
+        end if
+        
+    else
+        
+        put "502 REJECT" into word -2 to -1 of appGlobalVars["Tolog"]
+        put comError("2") into fromDB
+        
+    end if
+    
+    revCloseDatabase(appGlobalVars["myDatabaseID"])
+    
+    replace "<br /><br /><br />" with "<br /><br />" in fromDB
+    put fromDB into appGlobalVars["fromDB"]
+    
+    if tCompteur > 1
+    then put tCompteur && "sentences" into appGlobalVars["tCompteur"]
+    else put tCompteur && "sentence" into appGlobalVars["tCompteur"]
+    
+    get setOutput()
+    
+end post_Response
+
+
+function get_Response -- app initer -- livecode's postgresql/mysql drivers
+    
+    if appGlobalVars["tCategories"] is ""  then  -- max speed test conf (comment to disable) --> Redis alike RAM cached response -- top --
+        get connectDB(appGlobalVars["targetDB"])
+        put revDataFromQuery(comma, return, appGlobalVars["myDatabaseID"], "SELECT DISTINCT concept FROM citations ORDER BY concept") into appGlobalVars["tCategories"]
+        repeat for each line l in appGlobalVars["tCategories"]
+            add 1 to tCompteur
+            if appGlobalVars["targetDB"] is not "mysql"
+            then put vignette_template(utf8_decode(l), utf8_decode(revDataFromQuery("<br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = '" & l & "' ORDER BY RANDOM() LIMIT 1"))) & return after fromDB
+            else put vignette_template(l, revDataFromQuery("<br /><br />", return, appGlobalVars["myDatabaseID"], "SELECT citation, auteur, titre, date, comment FROM citations WHERE concept = " & quote & l & quote && "ORDER BY RAND() LIMIT 1")) & return after fromDB
+        end repeat
+        revCloseDatabase(appGlobalVars["myDatabaseID"])
+        replace "<br /><br /><br />" with "<br /><br />" in fromDB
+        put fromDB into appGlobalVars["fromDB"]
+        if tCompteur > 1
+        then put tCompteur && "sentences" into appGlobalVars["tCompteur"]
+        else put tCompteur && "sentence" into appGlobalVars["tCompteur"]
+    end if                                                           -- max speed test conf (comment to disable) --> Redis alike RAM cached response -- bot --
+    
+    get setOutput()
+    
+end get_Response
+
+
+#function get_Response  -- app initer -- nginx's postgresql driver
+#
+#    if appGlobalVars["tCategories"] is ""  then    -- max speed test conf (comment to disable) --> Redis alike RAM cached response -- top --
+#        put url ("http://localhost:80/citalis.concepts_lc") into appGlobalVars["tCategories"]  -- Livecode bug : empty response in -ui mode --
+#        repeat for each line l in appGlobalVars["tCategories"]
+#            add 1 to tCompteur
+#            put vignette_template(utf8_decode(l), utf8_decode(url ("http://localhost:80/citalis.citations.random.text?concept=" & l))) & return after fromDB
+#        end repeat
+#        replace "<br /><br />" with "<br />" in fromDB
+#        put fromDB into appGlobalVars["fromDB"]
+#        if tCompteur > 1
+#        then put tCompteur && "sentences" into appGlobalVars["tCompteur"]
+#        else put tCompteur && "sentence" into appGlobalVars["tCompteur"]
+#    end if                                                                   -- max speed test conf (comment to disable) --> Redis alike RAM cached response -- bot --
+#
+#    get setOutput()
+#
+#end get_Response
+
+
+function vignette_template tparam1, tparam2
+    
+    get random("8") & "," & random("100") + 270
+    return "<article class=" & setquote("item thumb") & " data-width=" & setquote(item 2 of it) & " data-value=" & setquote(setquotetosingle(tparam2) & \
+          "</br >" & tparam1) & "><div class=" & setquote("citation") & " style=" & setquote("background-image: url(images/thumbs/0" & \
+          item 1 of it & ".jpg)") & ">" & setquotetosingle(tparam2) & "</div><h7><a href=" & setquote("#") & " onclick=" & setquote("javascript:$('.image').click();") & \
+          " class=" & setquote("icon fa-arrows-alt") & "><span class=" & setquote("label") & ">Detail</span></a></h7>" & "<h2><input class=" & \
+          setquote("ccategories") & " type=" & setquote("submit") & " name=" & setquote("search") & " value=" & setquote(tparam1) & "></h2><a href=" & \
+          setquote("images/fulls/0" & item 1 of it & ".jpg") & " class=" & setquote("image") & " alt=" & setquote("") & "><img src=" & \
+          setquote("images/thumbs/0" & item 1 of it & ".jpg") & " alt=" & setquote("") & "></a></article>"
+    		
+end vignette_template
+
+
+function setOutput
+get appGlobalVars["citalis_tmp"]
+    replace "{*message4*}" with appGlobalVars["fromDB"] in it
+    replace "{{message1}}</li><li>{{message2}}</li><li>{{message3}}" with ((the milliseconds - appGlobalVars["timeStart"] + 0.1) / 1000) &  "</li><li>" & appGlobalVars["tCompteur"]  & "</li><li>" in it
+    return it
+end setOutput
+
+
+function mainControler
+    set the socketTimeoutInterval to 10000
+    
+    # CRSF, XSS, LTS and Tokenized Authentication Requests
+    # code comes here instead of the nginx WAF if not available
+     
+   set itemdelimiter to "&"
+   if "method=_POST" is in appGlobalVars["GetPostEntry"]
+   then put post_Response(appGlobalVars["GetPostEntry"]) into appGlobalVars["GetPostOutput"]
+   else put get_Response(appGlobalVars["GetPostEntry"]) into appGlobalVars["GetPostOutput"]
+     
+   # set the socketTimeoutInterval to 10
+end mainControler
+
+
+####### app's queries : bot #########
+
+
+####### maintenance queries : top ########
+
+# daily pgdump, etc...
+
+####### maintenance queries : bot ########
+
+
+############## RDBMS binding : top #############
+
+
+function connectDB targetDB
+    
+    if targetDB is not "mysql"
+    then put revOpenDatabase ("postgresql", "localhost", "citalis", "pierre", "oscar") into appGlobalVars["myDatabaseID"]
+    else put revOpenDatabase ("mysql", "localhost", "citalis", "pierre", "oscar", "false", "/var/run/mysqld/mysqld.sock") into appGlobalVars["myDatabaseID"]
+    if appGlobalVars["myDatabaseID"] is not a number 
+    then return "There was an error connecting to the SQL database!" && appGlobalVars["myDatabaseID"]
+    else
+        #if targetDB is not "mysql" -- postgresql only --
+        #then revExecuteSQL appLocalVars["myDatabaseID"],"SET client_encoding TO 'LATIN9';"
+        return appGlobalVars["myDatabaseID"]
+    end if
+    
+end connectDB
+
+
+############### RDBMS binding : bot ############
+
+
+######## server's boot/shutdown : top ##############
+
+
+on preOpenStack
+    
+    if the short name of this stack is not "arsheos_service" 
+    then pass PreOpenStack
+    
+    put "ysql" into appGlobalVars["targetDB"]
+    
+    set itemdel to "_"
+    put char 1 to 4 of item -1 of appGlobalVars["server_name"] into appGlobalVars["GPort"]
+    if appGlobalVars["GPort"] is not a number
+    then put "9578" into appGlobalVars["GPort"]
+    
+    set itemdel to "/"
+    put "/" & item 2 to -2 of the long name of this stack & "/" into appGlobalVars["Lepath"]
+    put "/" & item 2 to -3 of the long name of this stack & "/" into appGlobalVars["LepathRacine"]
+    
+    put return & return & "ArsheOS TCP/IP applications server listening on port" && appGlobalVars["GPort"] && "since" && the internet date & return & return into binfo
+    
+    # set twelveHourTime to false
+    # start using stack "aslibsmtp"
+    
+    set the socketTimeoutInterval to "10"
+    accept connections on port appGlobalVars["GPort"] with message "newconnect"
+    
+    open file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt" for append
+    if the result is not "" then
+        write cr & the result & cr to file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt"
+        put " " & the result after Pboot
+    else write return & return & "Open sockets :" && the opensockets & return & return to file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt"
+    close file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt"
+    
+    if the num of words in Pboot > 0
+    then put "LC applications server not up :" & Pboot
+    # else put binfo
+    
+    put url ("file:/var/www/html5up-parallelism/citalis_lls.html") into appGlobalVars["citalis_tmp"]
+    
+    if the environment is "development" then
+        set the tool to "browse"
+        set the lookandfeel to "motif"
+    end if
+    
+end preOpenStack
+
+
+on closeStack
+    open file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt" for append
+    if the result is not "" then
+        write cr & the result & cr to file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt"
+        put " " & the result after Pboot
+    else write return & return & "Close sockets :" && the opensockets & return & return to file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt"
+    close file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt"
+end closeStack
+
+
+######## server's boot/shutdown : bot #############
+
+
+#### sockets in/out : top #####
+
+
+on newconnect s # read  the socket's listener incoming request
+    read from socket s for 1 line with message "serverread"
+end newconnect
+
+
+on serverread x,y # processing the request
+    put urldecode(y) & return into appGlobalVars["GetPostEntry"]
+    put the milliseconds into appGlobalVars["timeStart"]
+    put the date && the long time && item 1 of appGlobalVars["GetPostEntry"] && char 5 to -1 of item -2 of appGlobalVars["GetPostEntry"] && line 1 of opensockets() && char 5 to -1 of item 3 of appGlobalVars["GetPostEntry"] && "200 OK" into appGlobalVars["Tolog"]
+    if length(appGlobalVars["Tolog"]) < 900
+    then get mainControler()
+    else
+        put "501 REJECT" into word -2 to -1 of appGlobalVars["Tolog"]
+        put comError("1") into appGlobalVars["GetPostOutput"]
+    end if
+    write appGlobalVars["GetPostOutput"] & return & return to socket x with message csocket
+end serverread
+
+
+on csocket x # closing the outgoing socket
+    close socket x # x = IP address & "|" & son's socket number as filled by the sockets listener script (PHP or Lua)
+    repeat
+        if the num of lines in (opensockets()) > 1 then close socket line 2 of (opensockets()) else exit repeat
+    end repeat
+    open file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt" for append
+    write appGlobalVars["Tolog"] & return to file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt"
+    close file appGlobalVars["Lepath"] & the short name of this stack & "_log.txt"
+end csocket
+
+
+on socketTimout
+   # don't remove : needed to overwrite the unsuitable default config
+end socketTimout
+
+
+##### sockets in/out : top ####
+
+
+############ data formating : top ############
+
+
+function setquotetosingle str
+    replace quote with "'" in str
+    return str
+end setquotetosingle
+
+
+function setquote str
+    return quote & str & quote
+end setquote
+
+
+function trim pData
+   return word 1 to -1 of pData
+end trim
+
+
+function stripsinglequote str
+	get trim(str)
+	if char -1 of it is "'"
+	then delete char -1 of it
+	if char 1 of it is "'"
+	then delete char 1 of it
+	return it
+end stripsinglequote
+
+
+-- UTF-8 ENCODING AND DECODING IN RUNTIME REVOLUTION adapted for RunRev from 
+-- http://www.webtoolkit.info/javascript-utf8.html by Michael Kuyumcu, info@noemanetz.de
+
+
+function utf8_encode t
+   put "" into utftext -- the utf-8-encoded text to be returned from the function
+   replace return with numToChar(10) in t -- replace all return characters with newline characters
+   repeat with charno = 1 to the length of t
+      put charToNum(the character charno of t) into c -- put the character code of c into 
+      if c < 128 
+      then put utftext & numToChar(c) into utftext
+      else if c > 127 and c < 2048 
+      then put utftext & numToChar((c div 64) bitOr 192) & numToChar((c bitAnd 63) bitOr 128) into utftext                  
+      else put utftext & numToChar((c div 4096) bitOr 224) & numToChar(((c div 64) bitAnd 63) bitOr 128) & numToChar((c bitAnd 63) bitOr 128) into utftext    
+   end repeat
+   return utftext
+end utf8_encode
+
+
+function utf8_decode utftext
+    put "" into t -- our result string
+    put 1 into i
+    repeat until i > the length of utftext -- step through the text
+        put charToNum(the character i of utftext) into c
+        if c < 128 then
+            put t & numToChar(c) into t
+            add 1 to i
+        else if c > 191 and c < 224 then
+            put charToNum(character i+1 of utftext) into c2
+            put t & numToChar(((c bitAnd 31) * 64) bitOr (c2 bitAnd 63)) into t
+            add 2 to i
+        else
+            put charToNum(character i+1 of utftext) into c2
+            put charToNum(character i+2 of utftext) into c3
+            put t & charToNum(((c bitAnd 15) * 4096) bitOr ((c2 bitAnd 63) * 64) bitOr ((c3 bitAnd 63) * 64)) into t
+            add 3 to i
+        end if
+    end repeat
+    return t
+end utf8_decode
+
+
+############ data formating : bot ############
+
+
+################ private cryptography : top ################
+################ private cryptography : bot ################
+
+
+####### errors handling : top ##########
+
+
+function comError tparam
+  return "erreur 50" & tparam
+end comError
+
+
+####### errors handling : bot ##########
+
+
+############ debugging helpers : top ##############
+
+
+on ComTest
+  return appGlobalVars["GetPostEntry"]
+end ComTest
+
+
+############## debugging helpers : bot ###############
+
