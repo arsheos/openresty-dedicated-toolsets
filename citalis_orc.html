@@ -23,12 +23,24 @@
 
 		<div id="wrapper">
 		
-			<div align="right">
-				<br />
-				<ul class="contact">
-					<li><a href="#" class="icon fa-asterisk"><span class="label">Login</span></a></li>
-					<li></li>
-				</ul>
+			<!-- br />
+			<ul class="contact">
+				<li><a href="#" class="icon fa-asterisk"><span class="label">Login</span></a></li>
+				<li></li>
+			</ul -->
+			
+			<div class="box menu">
+				<div id="translate" style="align: right; margin-right: 40px" >
+					<br />
+					<div id="google_translate_element"></div>
+					<script>
+						function googleTranslateElementInit() {
+							new google.translate.TranslateElement({
+								pageLanguage: 'fr'
+							}, 'google_translate_element');
+						}
+					</script><script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+				</div>
 			</div>
 
 			<div id="main">
