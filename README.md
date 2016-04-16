@@ -3,7 +3,7 @@ Citalis-LuaJIT (OpenResty, Redis, PostgreSQL version)
 
 Note 1: This LuaJIT version of the Citalis portal will not run without notable changes on top of the Apache2, OpenLiteSpeed or Lighttpd platforms as long as it's using the native NGINX PostgreSQL, secure and persistant, upstream pool and driver way to go.
 
-Note 2: Used without the help of a passive cache server (Redis2, memcached, Tarantool, etc...), the Citalis-LuaJIT version of the Citalis portal won't work as fast as it's expected to do when one of such cache servers is installed (15 X faster). It's the normal contre-party of the way the LuaJIT is running here in a simple FASTCGI mode (we are actively working on a LuaJIT TCP application's server version able to remove this performance limitation).
+Note 2: Used without the help of a passive cache server (Redis2, memcached, Tarantool, etc...), the Citalis-LuaJIT version of the Citalis portal won't work as fast as it's expected to do when one of such cache servers is installed (15 X faster). It's the normal contre-party of the way the LuaJIT is running here in a simple FASTCGI mode (we are actively working on a LuaJIT TCP application's server version suited to avoid this performance limitation).
 
 Installation :
 
