@@ -13,7 +13,7 @@ Be aware that the presentation's layer and user interface rely on the very elega
 4.- Add the arsheos.css file to the /assets/css/ subdirectory.<br />
 5.- Use your prefered postgresql managment tool (phpPgAdmin, etc...) to add the citalis db (one table) on your pg server.<br />
 6.- Use your prefered mysql/mariadb managment tool (phpMyAdmin, etc...) to add the citalis db (one table) on your mysql/mariadb server.<br />
-7.- Download the GPL3 licensed version of the Livecode 8.xx suited to your OS from downloads.livecode.com/livecode/ and install it on your box.<br />
+7.- Download the GPL3 licensed version of the Livecode 8.xx suited to your OS from http://downloads.livecode.com/livecode/ and install it on your development box.<br />
 8.- Compile the <br />
 6.- Adapt all the local paths and db user:password to your own configuration in updating them in the citalis.lc file.<br />
 7.- Open your ../openresty/nginx/conf/ directory and update your nginx.conf file in picking up the adequate citalis and postgresql configuration setups available inside the nginx.conf file we provide you.<br />
