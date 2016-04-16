@@ -9,8 +9,8 @@ The Citalis-LiveCode-AS solution provide a second reliable way to handle such ki
 
 The Citalis-LiveCode-CGI solution provided there too for AB-testing needs only presents the advantage to show how the same code base as the one used in Citalis-LiveCode-AS solution runs in a lots slower way by design in a CGI magnitude context. For practical reasons, its provided there in its OpenLiteSpeed / Livecode CGI server / MariaDB version as the perfect reflector of the online version available at https://www.gnmsaas.com/citalis/citalis.lc .
 
-Before installing one or both of those solutions for any testing or development needs, be aware that the presentation's layer and user interface rely on the very elegant and lightweight Parallelism JQuery/CSS3 template, freely available from http://html5up.net/parallelism for any use as long as the HTML5 UP copyright notice remains in place without any changes. Don't forget to download and install it in the Citalis app webroot directory before going further.
-
 Nope of both the presented solutions never lies in about heap memory managment alike its so often the case with JVM based solutions. In case of a big aboundance of concurrent incoming requests, the worst witch can happen will have to do with some slowdowning of the responses served back to client's browsers.
+
+Before installing one or both of those solutions for any testing or development needs, be aware that the presentation's layer and user interface rely on the very elegant and lightweight Parallelism JQuery/CSS3 template, freely available from http://html5up.net/parallelism for any use as long as the HTML5 UP copyright notice remains in place without any changes. Don't forget to download and install it in the Citalis app webroot directory before going further.
 
 Please refer to each dedicated README.md files available inside the different subdirectories for installation instructions.
