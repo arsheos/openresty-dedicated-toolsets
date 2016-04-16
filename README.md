@@ -11,4 +11,4 @@ The Citalis-LiveCode-CGI solution provided there too for AB-testing needs only p
 
 Before installing one or both of those solutions for any testing or development needs, be aware that the presentation's layer and user interface rely on the very elegant and lightweight Parallelism JQuery/CSS3 template, freely available from http://html5up.net/parallelism for any use as long as the HTML5 UP copyright notice remains in place without any changes. Don't forget to download and install it in the Citalis app webroot directory before going further.
 
-Please refer to each dedicated README.md files available inside the different subdirectories for installation details.
+Please refer to each dedicated README.md files available inside the different subdirectories for installation instructions.
