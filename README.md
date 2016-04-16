@@ -17,4 +17,4 @@ Be aware that the presentation's layer and user interface rely on the very elega
 8.- Add the nginx_citalis.conf file to your ../openresty/nginx/conf/ directory and don't forget to reference it inside your nginx.conf file.<br />
 9.- Add the nginx_citalis.lua application's file to your ../openresty/nginx/ directory and don't forget to restart nginx to let him takes all the upon configuration changes in account.<br />
 
-Just type the http(s)://yoursite/path-to-citalis.orc nginx handled virtual location url to connect your new installed citalis app portal and have fun.
+Just type the http(s)://yoursite/path-to-citalis.lls nginx handled virtual location url to connect your new installed citalis app portal and have fun.
