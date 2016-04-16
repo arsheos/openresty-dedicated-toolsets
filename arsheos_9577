@@ -1,0 +1,55 @@
+#!/bin/sh -e
+
+### BEGIN INIT INFO
+# Provides:          arsheos_9577
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: ArsheOS livecode's powered application's server init.d script
+# Description:       Beside Lua, Livecode is a nginx's friendly platform well featured to run reliables Saas applications.
+### END INIT INFO
+
+# Start/stop ArsheOS deamon
+
+DAEMON="/usr/local/arsheos_9577/arsheos_9577"
+DAEMON_NAME="arsheos_9577"
+
+case "$1" in
+
+'start')
+
+echo -e "\033[32m ArsheOS Deamon starting ... \033[0m"
+$DAEMON -ui &
+echo -e "\033[36m ArsheOS Deamon started and listening for connections on tcp port 9577. \033[0m"
+
+;;
+
+'stop')
+
+echo -e "\033[32m ArsheOS Deamon stopping ... \033[0m"
+killall -w -3 $DAEMON_NAME
+echo -e "\033[36m ArsheOS Deamon stopped. \033[0m"
+
+;;
+
+'restart')
+
+echo -e "\033[32m ArsheOS Deamon stopping ... \033[0m"
+killall -w -3 $DAEMON_NAME
+echo -e "\033[36m ArsheOS Deamon stopped. \033[0m"
+echo -e "\033[32m ArsheOS Deamon starting ... \033[0m"
+$DAEMON -ui &
+echo -e "\033[36m ArsheOS Deamon started and listening for connections on tcp port 9577. \033[0m"
+
+;;
+
+*)
+
+echo "Usage: $0 { start | stop | restart }"
+
+;;
+
+esac
+
+exit 0
