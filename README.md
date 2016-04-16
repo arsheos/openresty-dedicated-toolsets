@@ -12,7 +12,8 @@ Be aware that the presentation's layer and user interface rely on the very elega
 3.- Add the arsheos.js file to the /assets/js/ subdirectory.</br >
 4.- Add the arsheos.css file to the /assets/css/ subdirectory.</br >
 5.- Use your prefered mysql/mariadb managment tool (phpMyAdmin, etc...) to add the citalis db (one table) on your db server.</br >
-6.- Adapt all the local paths and db user:password to your own configuration in updating them in the citalis.lc file.
+6.- If needed, download the GPL3 licensed version of the Livecode 7.xx or 8.xx CGI server suited to your server's OS from http://downloads.livecode.com/livecode/ and install it on your server's box.</br >
+7.- Adapt all the local paths and db user:password to your own configuration in updating them in the citalis.lc file.
 
 Just type the http(s)://yoursite/path-to-citalis.lc right url to connect your new installed citalis app portal and have fun.
 
