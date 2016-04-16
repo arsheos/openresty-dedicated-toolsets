@@ -9,6 +9,6 @@ The Citalis-LiveCode-AS solution provide a second reliable way to handle such ki
 
 The Citalis-LiveCode-CGI solution provided there too for AB-testing needs only presents the advantage to show how the same code base as the one used in Citalis-LiveCode-AS solution runs in a lots slower way by design in a CGI magnitude context.
 
-Before installing one or both of those solutions for any testing or development needs, be aware that the presentation's layer and user interface rely on the very elegant and lightweight Parallelism JQuery/CSS3 template, freely available from http://html5up.net/parallelism for any use as long as the copyright notice remains in place. Don't forget to download and install it in the Citalis app root directory before going further.
+Before installing one or both of those solutions for any testing or development needs, be aware that the presentation's layer and user interface rely on the very elegant and lightweight Parallelism JQuery/CSS3 template, freely available from http://html5up.net/parallelism for any use as long as the html5 UP copyright notice remains in place. Don't forget to download and install it in the Citalis app root directory before going further.
 
 Please refer to each dedicated README.md files available inside the different subdirectories for installation details.
