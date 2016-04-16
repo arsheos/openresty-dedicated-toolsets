@@ -1,7 +1,7 @@
 # openresty-dedicated-toolsets : Citalis-Livecode-AS
 Citalis-Livecode-AS (OpenResty, Livecode TCP application's server, PostgreSQL and MySQL/MariaDB versions)
 
-Note: This LuaJIT version of the Citalis portal will run without notable changes on top of the Apache2, OpenLiteSpeed and Lighttpd platforms as long as it's using the native Livecode PostgreSQL and MySQL/MariaDB drivers.
+Note: because this Livecode TCP application's server version of the Citalis portal is using the native Livecode PostgreSQL and MySQL/MariaDB drivers, it will run without notable changes on top of the Apache2, OpenLiteSpeed and Lighttpd platforms.
 
 Installation :
 
