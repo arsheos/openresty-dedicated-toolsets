@@ -1,7 +1,7 @@
 # openresty-dedicated-toolsets : Citalis-LuaJIT
 Citalis-LuaJIT (OpenResty, Redis, PostgreSQL version)
 
-Note: This LuaJIT version of the Citalis portal will not run without notable changes on top of the Apache2, OpenLiteSpeed and Lighttpd platforms as long as it's using the native NGINX PostgreSQL, secure and persistant, upstream pool and driver way to go.
+Note: This LuaJIT version of the Citalis portal will not run without notable changes on top of the Apache2, OpenLiteSpeed or Lighttpd platforms as long as it's using the native NGINX PostgreSQL, secure and persistant, upstream pool and driver way to go.
 
 Installation :
 
