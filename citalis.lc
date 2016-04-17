@@ -285,7 +285,7 @@ end setOutput
 function connectDB targetDB
   if targetDB is not "mysql"
   then put revOpenDatabase ("postgresql", "localhost:5432", "citalis", "user", "pass") into appLocalVars["myDatabaseID"]
-  else put revOpenDatabase ("mysql", "localhost", "ua883838_citalis", "ua883838_citalis", "oscar.64") into appLocalVars["myDatabaseID"]
+  else put revOpenDatabase ("mysql", "localhost", "dbname", "dbuser", "dbpasswd") into appLocalVars["myDatabaseID"]
   if appLocalVars["myDatabaseID"] is not a number 
   then return "There was an error connecting to the SQL database!" && appLocalVars["myDatabaseID"]
   else
