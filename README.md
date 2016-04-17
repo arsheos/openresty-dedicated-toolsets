@@ -1,7 +1,7 @@
 # openresty-dedicated-toolsets
 Saas, RIA and web applications toolsets using mainly OpenResty, Redis and PostgreSQL
 
-This repertory contains three branches subdirectories aimed to presents different ways to build lightweight web applications in using OpenResty and Lua, OpenResty and a Livecode-based TCP application server and OpenLiteSpeed and the regular Livecode CGI server in its stock's version as provided to customers by the Livecode Ltd Corp. Both of those apps provides the same service : the Citalis sentences library consultation portal. The underlaying technical solutions presents some differences indeed, mainly in performance terms.
+This repository contains three branches subdirectories aimed to presents different ways to build lightweight web applications in using OpenResty and Lua, OpenResty and a Livecode-based TCP application server and OpenLiteSpeed and the regular Livecode CGI server in its stock's version as provided to customers by the Livecode Ltd Corp. Both of those apps provides the same service : the Citalis sentences library consultation portal. The underlaying technical solutions presents some differences indeed, mainly in performance terms.
 
 1.- The Citalis-LuaJIT solution provide the most suitable way to scale up such kind of solutions in a very affordable way. In using LuaJIT (there in FastCGI mode) + Redis2 as the passive cache layer, the performance average permits to handle with a perfect predictible regularity 34 X more requests peer seconds than a more simplest way to go (CGI).
 
