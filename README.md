@@ -3,7 +3,7 @@ Citalis-Livecode-CGI (OpenLiteSpeed, Livecode CGI Server, MariaDB version)
 
 Note: This CGI version of the Citalis portal will runs without any changes needs on top of the Apache2, OpenResty and Lighttpd platforms as long as the Livecode CGI server middleware components will be installed as expected on each of the targeted platforms.
 
-Installation :
+#Installation
 
 Be aware that the presentation's layer and user interface rely on the very elegant and lightweight Parallelism JQuery/CSS3 template, freely available from http://html5up.net/parallelism for any use as long as the HTML5 UP copyright notice remains in place without any changes. Don't forget to download and install it in the Citalis app webroot directory before going further.
 
