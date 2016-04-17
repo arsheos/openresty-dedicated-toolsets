@@ -5,7 +5,7 @@ Note 1: This LuaJIT version of the Citalis portal will not run without notable c
 
 Note 2: Used without the help of a passive cache server (Redis2, memcached, Tarantool, etc...), the Citalis-LuaJIT version of the Citalis portal won't work as fast as it's expected to do when one of such cache servers is installed (15 X faster). It's the normal contre-party of the way the LuaJIT is running here in a simple FASTCGI mode (we are actively working on a LuaJIT TCP application's server version suited to avoid this performance limitation).
 
-Installation :
+#Installation
 
 Be aware that the presentation's layer and user interface rely on the very elegant and lightweight Parallelism JQuery/CSS3 template, freely available from http://html5up.net/parallelism for any use as long as the HTML5 UP copyright notice remains in place without any changes. Don't forget to download and install it in the Citalis app webroot directory before going further.
 
