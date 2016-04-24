@@ -251,8 +251,8 @@ end mainControler
 function connectDB targetDB
     
     if targetDB is not "mysql"
-    then put revOpenDatabase ("postgresql", "localhost", "citalis", "pierre", "oscar") into appGlobalVars["myDatabaseID"]
-    else put revOpenDatabase ("mysql", "localhost", "citalis", "pierre", "oscar", "false", "/var/run/mysqld/mysqld.sock") into appGlobalVars["myDatabaseID"]
+    then put revOpenDatabase ("postgresql", "localhost", "citalis", "user", "passwd") into appGlobalVars["myDatabaseID"]
+    else put revOpenDatabase ("mysql", "localhost", "citalis", "user", "passwd", "false", "/var/run/mysqld/mysqld.sock") into appGlobalVars["myDatabaseID"]
     if appGlobalVars["myDatabaseID"] is not a number 
     then return "There was an error connecting to the SQL database!" && appGlobalVars["myDatabaseID"]
     else
