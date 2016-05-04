@@ -366,7 +366,7 @@ on socketTimout
 end socketTimout
 
 
-##### sockets in/out : top ####
+##### sockets in/out : bot ####
 
 
 ############ data formating : top ############
