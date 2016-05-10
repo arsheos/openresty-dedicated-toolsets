@@ -9,7 +9,19 @@ This repository contains three branches subdirectories aimed to presents differe
 
 3.- The Citalis-LiveCode-CGI solution - provided there for AB-testing needs only - presents the advantage to show how the same code base used in Citalis-LiveCode-AS solution runs in a lots slower way by design in a CGI magnitude context. For practical reasons, it's provided there in its OpenLiteSpeed / Livecode CGI server / MariaDB version as the direct reflector of its online presentation version available at https://www.gnmsaas.com/citalis/citalis.lc .
 
-Because their C end to end coded roots, nope of the above solutions never lies in heap memory managment inconsitancies or lackings alike it's so often the case with JVM based solutions. In case of a big aboundance of concurrent incoming requests, the worst witch can happen will have to do with some slowdown of the responses served back to client's browsers.
+Because their C end to end coded roots, nope of the above solutions never lies in heap memory managment inconsitancies or lackings alike it's so often the case with JVM based solutions. In case of a big aboundance of concurrent incoming requests, the worst witch can happen will have to do with some slowdown of the responses served back to client's browsers. 
+
+To be more precise, each of the above solutions went succefully tested against the siege 3.0.5 AB-testing tool (in localhost mode to avoid any WAN latency side effects) :
+
+- the Citalis-LiveCode-AS solution went reliably able to support 250 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB backend RDBMS - one worker active).
+
+- the Citalis-LuaJIT solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB backend RDBMS - one worker active).
+
+- the Citalis-LiveCode-CGI solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB backend RDBMS - one worker active).
+
+Note 1: results of the same tests done against the PostgreSQL backend RDBMS will follow as soon as available.
+
+Note 2: some more PHP based test solutions (Citalis-PHP 5.5.9, Citalis-PHP 7.0.6, Citalis-HHVM 3.13.1) went reliably able to support up to 75 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB backend RDBMS - one worker active). They are't provided there because their low performances in terms of speed, aimed to helps to remember the pure CGI roots of the PHP platform (0.45% of the Citalis-LiveCode-CGI solution performance results in the best case). HHVM speed seemed, at first glance, to depends directly from well suited passive cache configurations we did't choose to setup in our current comparative tests context.
 
 Be aware that all the provided material went always installed on Linux-64 powered servers. Any installation done against Windows, Mac OS X, BSD or Solaris based platforms won't probably not run out of the box without adequate adaptations.
 
