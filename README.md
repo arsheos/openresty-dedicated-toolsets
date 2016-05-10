@@ -19,9 +19,9 @@ To be more precise, each of the above solutions went succefully tested against t
 
 - the Citalis-LiveCode-CGI solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB backend RDBMS - one worker active).
 
-Note 1: results of the same tests done against the PostgreSQL backend RDBMS will follow as soon as available.
+Results of the same tests done against the PostgreSQL backend RDBMS will follow as soon as available.
 
-Note 2: some more PHP based test solutions (Citalis-PHP 5.5.9, Citalis-PHP 7.0.6, Citalis-HHVM 3.13.1) went reliably able to support up to 75 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB backend RDBMS - one worker active). They are't provided there because their low performances in terms of speed, aimed to helps to remember the pure CGI roots of the PHP platform (0.45% of the Citalis-LiveCode-CGI solution performance results in the best case). HHVM speed seemed, at first glance, to depends directly from well suited passive cache configurations we did't choose to setup in our current comparative tests context.
+Note: Some more PHP based test solutions (Citalis-PHP 5.5.9, Citalis-PHP 7.0.6, Citalis-HHVM 3.13.1) went reliably able to support up to 75 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB backend RDBMS - one worker active). They are't provided there because their low performances in terms of speed, aimed to helps to remember the pure CGI roots of the PHP platform (0.45% of the Citalis-LiveCode-CGI solution performance results in the best case). HHVM speed seemed, at first glance, to depends directly from well suited passive cache configurations we did't choose to setup in our current comparative tests context.
 
 Be aware that all the provided material went always installed on Linux-64 powered servers. Any installation done against Windows, Mac OS X, BSD or Solaris based platforms won't probably not run out of the box without adequate adaptations.
 
