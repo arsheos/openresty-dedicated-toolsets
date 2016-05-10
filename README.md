@@ -9,7 +9,7 @@ This repository contains three branches subdirectories aimed to presents differe
 
 3.- The Citalis-LiveCode-CGI solution - provided there for AB-testing needs only - presents the advantage to show how the same code base used in Citalis-LiveCode-AS solution runs in a lots slower way by design in a CGI magnitude context. For practical reasons, it's provided there in its OpenLiteSpeed / Livecode CGI server / MariaDB version as the direct reflector of its online presentation version available at https://www.gnmsaas.com/citalis/citalis.lc .
 
-Because their C end to end coded roots, nope of the above solutions never lies in heap memory managment inconsitancies or lackings alike it's so often the case with JVM based solutions. In case of a big aboundance of concurrent incoming requests, the worst witch can happen will have to do with some slowdown of the responses served back to client's browsers. 
+Because their C end to end coded roots, nope of the above solutions never lies in heap memory management inconsitancies or lackings alike it's so often the case with JVM based solutions. In case of a big aboundance of concurrent incoming requests, the worst witch can happen will have to do with some slowdown of the responses served back to client's browsers. 
 
 To be more precise, each of the above solutions went succefully tested against the siege 3.0.5 AB-testing tool (in localhost mode to avoid any WAN latency side effects) :
 
