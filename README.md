@@ -19,8 +19,6 @@ To be more precise, each of the above solutions went succefully tested against t
 
 - the Citalis-LiveCode-CGI solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB RDBMS backend - one worker active).
 
-Note: In addition to the upon configurations, PHP powered solutions (Citalis-PHP 5.5.9, Citalis-PHP 7.0.6, Citalis-HHVM 3.13.1) went, by th way, reliably tested as able to support up to 75 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB backend RDBMS - one worker active).
-
 Be aware that all the provided material went always installed on Linux-64 powered servers. Any installation done against Windows, Mac OS X, BSD or Solaris based platforms won't probably not run out of the box without adequate adaptations.
 
 Before installing one or both of those solutions for any testing or development needs, be aware that the presentation's layer and user interface rely on the very elegant and lightweight Parallelism JQuery/CSS3 template, freely available from http://html5up.net/parallelism for any use as long as the HTML5 UP copyright notice remains in place without any changes. Don't forget to download and install it in the Citalis app webroot directory before going further.
