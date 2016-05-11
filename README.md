@@ -11,13 +11,13 @@ This repository contains three branches subdirectories aimed to presents differe
 
 Because their C end to end coded roots, nope of the above solutions never lies in heap memory management inconsitancies or lackings alike it's so often the case with JVM based solutions. In case of a big aboundance of concurrent incoming requests, the worst witch can happen will have to do with some slowdown of the responses served back to client's browsers. 
 
-To be more precise, each of the above solutions went succefuly tested against the siege 3.0.5 AB-testing tool (in localhost mode to avoid any WAN latency side effects) :
+To be more precise, each of the above solutions went tested against the siege 3.0.5 AB-testing tool (in localhost mode to avoid any WAN latency side effects) as able to support on a lightweight reference configuration (OpenResty 1.9.7 - ubuntu 14.04 - pentium centrino dualcore - 4 Go RAM):
 
-- On a pentium centrino dualcore - 4 Go RAM - test configuration, the Citalis-LiveCode-AS solution went reliably able to support 250 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against both the PostgreSQL and MariaDB RDBMS backends - one worker active - OpenResty 1.9.7 - ubuntu 14.04).
+- the Citalis-LiveCode-AS solution went reliably able to support 250 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against both the PostgreSQL and MariaDB RDBMS backends - one worker active).
 
-- On a pentium centrino dualcore - 4 Go RAM - test configuration, the Citalis-LuaJIT solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the PostgreSQL RDBMS backend - one worker active - OpenResty 1.9.7 - ubuntu 14.04).
+- the Citalis-LuaJIT solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the PostgreSQL RDBMS backend - one worker active).
 
-- On a pentium centrino dualcore - 4 Go RAM - test configuration, the Citalis-LiveCode-CGI solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB RDBMS backend - one worker active - OpenResty 1.9.7 - ubuntu 14.04).
+- the Citalis-LiveCode-CGI solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB RDBMS backend - one worker active).
 
 Be aware that all the provided material went always installed on Linux-64 powered servers. Any installation done against Windows, Mac OS X, BSD or Solaris based platforms won't probably not run out of the box without adequate adaptations.
 
