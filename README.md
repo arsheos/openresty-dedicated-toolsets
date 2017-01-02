@@ -21,6 +21,12 @@ To be more precise, each of the above solutions went tested against the siege 3.
 
 - the Citalis-LuaJIT solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the PostgreSQL RDBMS backend - one worker active).
 
+- the Citalis-HHVM-PHP solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the PostgreSQL RDBMS backend - one worker active).
+
+- the Citalis-HHVM-Hack solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the PostgreSQL RDBMS backend - one worker active).
+
+- the Citalis-Zend-PHP solution went unable to support more than 5 (15) concurrent requests stress tests before systemic failings -> socket connection lost against the MySQL (PostgreSQL) RDBMS backend.
+
 - the Citalis-LiveCode-CGI solution went reliably able to support 100 concurrent requests stress tests without any fail (100% of successful transactions - no one socket connection lost against the MariaDB RDBMS backend - one worker active).
 
 Be aware that all the provided material went always installed on Linux-64 powered servers. Any installation done against Windows, Mac OS X, BSD or Solaris based platforms won't probably not run out of the box without adequate adaptations.
