@@ -11,6 +11,8 @@ This repository contains different branches subdirectories aimed to presents dif
 
 4.- The Citalis-HHVM-Hack solution provide one of the most suitable options to scale up such kind of solutions in a very affordable way. In using the HHVM JIT compiler (and application's server) to run the Hack's optimized fork of the initial PHP's Citalis code version, the performance average permits to handle with a perfect predictible regularity 30 X more requests peer seconds than a more simplest way to go (CGI or PHP5-Zend).
 
+5.- The Citalis-Zend-PHP-5.5.9 solution - provided there for AB-testing needs only - presents the advantage to show how the same code base used in Citalis-HHVM-Hack solution runs in a lots slower way by design in a standard Zend-PHP5 magnitude context.
+
 Because their C end to end coded roots, nope of the above solutions never lies in heap memory management inconsitancies or lackings alike it's so often the case with JVM based solutions. In case of a big aboundance of concurrent incoming requests, the worst witch can happen will have to do with some slowdown of the responses served back to client's browsers. 
 
 To be more precise, each of the above solutions went tested against the siege 3.0.5 AB-testing tool (in localhost mode to avoid any WAN latency side effects) as able to support on a lightweight reference configuration (OpenResty 1.9.7 - ubuntu 14.04 - pentium centrino dualcore - 4 Go RAM):
