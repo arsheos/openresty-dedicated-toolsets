@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<!--
+	Parallelism by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+	<head>
+		<title>Citalis 50x</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/arsheos.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	
+	<body>
+
+		<div id="wrapper">
+
+			<div id="main">
+				<div id="reel">
+
+					<!-- Header Item -->
+
+						<div id="header" class="item" align="center" data-width="260">
+							<div class="inner">
+								<h1>Citalis</h1>
+								<p>temporalit&#233;s</p>
+							</div>
+						</div>
+
+				</div>
+			</div>
+			
+			<form method="POST">
+
+				<div id="footer">
+					<div class="left">
+						<ul class="nomenclature">
+							<li><a href="javascript:history.back()" class="icon fa-history"><span class="label">History</span></a></li>
+							<li><a href="./citalis.orb" class="icon fa-list-ol"><span class="label">Categories</span></a></li>
+							<!-- li><a href="./citalis.orb?concept=random" class="icon fa-random"><span class="label">Refresh</span></a></li -->
+							<li><a href="#" class="icon fa-random" onclick='document.getElementById("concept_random").submit()'><span class="label">Concept</span></a></li>
+							<!-- li><a href="./citalis.orb?auteur=extract" class="icon fa-user"><span class="label">Authors</span></a></li -->
+							<li><a href="#" class="icon fa-user" onclick='document.getElementById("auteur_extract").submit()'><span class="label">Authors</span></a></li>
+							<!-- li><a href="./citalis.orb?auteur=random" class="icon fa-random"><span class="label">Authors</span></a></li -->
+							<li><a href="#" class="icon fa-random" onclick='document.getElementById("auteur_random").submit()'><span class="label">RandomAuthor</span></a></li>
+							<!-- li><a href="./citalis.orb?date=extract" class="icon fa-calendar"><span class="label">DateRange</span></a></li -->
+							<li><a href="#" class="icon fa-calendar" onclick='document.getElementById("date_extract").submit()'><span class="label">DateRange</span></a></li>
+							<!-- li><a href="./citalis.orb?date=random" class="icon fa-random"><span class="label">DateRange</span></a></li -->
+							<li><a href="#" class="icon fa-random" onclick='document.getElementById("date_random").submit()'><span class="label">RandomDate</span></a></li>
+							<li><a href="#" class="icon fa-search" onclick='$("#searchbox").toggle(); $("#searchbox").focus();'></a></li>
+							<li><form method="post"><input id="searchbox" name="search" type="text" size="35" maxlength="60" /></form></li>
+						</ul>
+						<ul class="copyright">
+							<li>NGINX/LuaJIT/PostgreSQL</li><li>{{message1}}</li><li>Error 50x</li>
+						</ul>
+					</div>
+					<div class="right">
+						<ul class="contact">
+							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="#" class="icon fa-pinterest"><span class="label">Pinterest</span></a></li>
+							<li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy; 2016 ArsheOS</li><li>Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a></li>
+						</ul>
+					</div>
+				</div>
+			
+			</form>
+
+		</div>
+		
+		<form method="post" id="concept_random"><input type="hidden" name="concept" value="random"></form>
+		<form method="post" id="auteur_random"><input type="hidden" name="auteur" value="random"></form>
+		<form method="post" id="date_random"><input type="hidden" name="date" value="random"></form>
+		<form method="post" id="concept_extract"><input type="hidden" name="concept" value="extract"></form>
+		<form method="post" id="auteur_extract"><input type="hidden" name="auteur" value="extract"></form>
+		<form method="post" id="date_extract"><input type="hidden" name="date" value="extract"></form>
+
+		<!-- Scripts -->
+		
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.poptrox.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/skel-viewport.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+		<script src="assets/js/main.js"></script>
+		<script src="assets/js/arsheos.js"></script>
+	
+	</body>
+	
+	
+</html>
