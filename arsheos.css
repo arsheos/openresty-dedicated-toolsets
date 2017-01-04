@@ -1,0 +1,147 @@
+/*
+	&copy; 2016 PharesOS
+*/
+
+/* body */
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+/* buttons */
+
+.ccategories {
+	background: transparent;
+	background-hover: #666;
+	color: #fff;
+	cursor: pointer;
+	border: 0;
+	position: absolute;
+	bottom: 0.5em;
+	right: 0.3em;
+}
+
+/* List */
+
+	ul.nomenclature {
+		cursor: default;
+		margin: 0 0 1em 0;
+	}
+
+		ul.nomenclature li {
+			display: inline-block;
+			font-size: 1.5em;
+		}
+
+			ul.nomenclature li span {
+				display: none;
+			}
+
+			ul.nomenclature li a {
+				opacity: 0.35;
+				color: #fff;
+				-moz-transition: opacity 0.25s ease-in-out;
+				-webkit-transition: opacity 0.25s ease-in-out;
+				-ms-transition: opacity 0.25s ease-in-out;
+				transition: opacity 0.25s ease-in-out;
+			}
+
+				ul.nomenclature li a:hover {
+					opacity: 1.0;
+				}
+								
+/* Item */
+
+		.citation {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 85.6%;
+			padding: 1em;
+			font-weight: 400;
+			line-height: 1em;
+			z-index: 1;
+			background-size: 100% 100%;
+		}
+		
+		.item.thumb h7 {
+			position: absolute;
+			bottom: 0.1em;
+			left: 0.7em;
+			background: transparent;
+			width: 10%;
+			/* font-weight: 400; */
+			z-index: 20;
+		}
+		
+		/* caption wrapper */
+		
+		.poptrox-popup .caption {
+			position: absolute;
+			top: 0;
+			left: 0;
+			background: transparent;
+			display: block;
+			width: 100%;
+			line-height: 25px;
+			text-align: left;
+			font-size: 1em;
+			color: #fff;
+			padding: 40px;
+		}
+		
+a {
+	color: rgba(255, 255, 255, 0.6);
+	text-decoration: none;
+	-moz-transition: color 0.25s ease-in-out;
+	-webkit-transition: color 0.25s ease-in-out;
+	-ms-transition: color 0.25s ease-in-out;
+	transition: color 0.25s ease-in-out;
+}
+		
+a:hover {
+	color: #fff;
+}
+
+#searchbox { display: none; }
+		
+/* Desktop */
+
+	@media screen and (min-width: 737px) {
+
+		/* Basic */
+		
+				/* List */
+
+			ul.nomenclature {
+				margin-bottom: 0.5em;
+			}
+
+				ul.nomenclature li {
+					margin-right: 1em;
+				}
+				
+	}	
+	
+/* Mobile */
+
+	@media screen and (max-width: 736px) {
+	
+		/* List */
+
+		ul.nomenclature li {
+			margin: 0 0.35em 0 0.35em;
+		}
+			
+		.item.thumb h7 {
+			position: absolute;
+			bottom: 1.85em;
+			left: 0.7em;
+			background: transparent;
+			width: 10%;
+			z-index: 20;
+		}
+	
+	}
+					
