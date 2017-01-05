@@ -17,6 +17,8 @@ Be aware that the presentation's layer and user interface rely on the very elega
 
 Just type the http(s)://yoursite/path-to-citalis.php url to connect your new installed citalis app portal and have fun.
 
+Get in mind that if this formaly named Citalis-Zend-PHP5 branch is full able to be deployed on top of the Zend interpreter on the Apache 2 platform, it's delivred there in its NGINX/HHVM appplication's server way to go to provide the best performances we can expect in both terms of TCO and application's security.
+
 Be aware that all the provided material went always installed on Linux-64 powered servers. Any installation done against Windows, Mac OS X, BSD or Solaris based platforms won't probably not run out of the box without adequate adaptations.
 
 Before installing one or both of those solutions for any testing or development needs, be aware that the presentation's layer and user interface rely on the very elegant and lightweight Parallelism JQuery/CSS3 template, freely available from http://html5up.net/parallelism for any use as long as the HTML5 UP copyright notice remains in place without any changes. Don't forget to download and install it in the Citalis app webroot directory before going further.
