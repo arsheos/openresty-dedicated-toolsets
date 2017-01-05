@@ -13,7 +13,7 @@ Be aware that the presentation's layer and user interface rely on the very elega
 6.- Adapt all the local paths and db user:password to your own configuration in updating them in the citalis.lc file.<br />
 7.- Open your ../openresty/nginx/conf/ directory and update your nginx.conf file in picking up the adequate citalis and postgresql configuration setups available inside the nginx.conf file we provide you.<br />
 8.- Add the php-fpm-hhvm-fcgi.conf file to your ../openresty/nginx/conf/ directory and don't forget to reference it inside your nginx.conf file.<br />
-10.- Add the nginx.conf file to your ../openresty/nginx/conf/ directory and don't forget to restart nginx to let him takes all the upon configuration changes in account.<br />
+9.- Add the nginx.conf file to your ../openresty/nginx/conf/ directory and don't forget to restart nginx to let him takes all the upon configuration changes in account.<br />
 
 Just type the http(s)://yoursite/path-to-citalis-hhs.php url to connect your new installed citalis app portal and have fun.
 
