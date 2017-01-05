@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<!--
+	Parallelism by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+	<head>
+		<meta charset="ISO-8859-1" />
+		<title>{{title}}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/arsheos.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+
+	<body>
+
+		<div id="wrapper">
+
+			<div align="right">
+
+				<div class="box menu">
+
+					<div id="translate" style="align: right; margin-right: 40px" >
+						<br />
+						<div id="google_translate_element"></div>
+						<script>
+							function googleTranslateElementInit() {
+								new google.translate.TranslateElement({
+									pageLanguage: 'fr'
+								}, 'google_translate_element');
+							}
+						</script><script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+					</div>
+				</div>
+
+			</div>
+
+			<div id="main">
+				<div id="reel">
+
+					<!-- Header Item -->
+
+					<div id="header" class="item" align="center" data-width="280">
+						<div class="inner">
+							<h1>Citalis</h1>
+							<p>temporalit&#233;s</p>
+						</div>
+					</div>
+
+					<!-- Thumb Items -->
+
+					<form method="post" onclick="checkForm()">
+
+						{{dbresponse}}
+
+					</form>
+
+				</div>
+			</div>
+
+			<div id="footer">
+				<div class="left">
+					<ul class="nomenclature">
+						<li><a href="javascript:history.back()" class="icon fa-history"><span class="label">History</span></a></li>
+						<li><a href="#" class="icon fa-list-ol" onclick='document.getElementById("concept_extract").submit()'><span class="label">Categories</span></a></li>
+						<li><a href="#" class="icon fa-random" onclick='document.getElementById("concept_random").submit()'><span class="label">Concept</span></a></li>
+						<li><a href="#" class="icon fa-user" onclick='document.getElementById("auteur_extract").submit()'><span class="label">Authors</span></a></li>
+						<li><a href="#" class="icon fa-random" onclick='document.getElementById("auteur_random").submit()'><span class="label">RandomAuthor</span></a></li>
+						<li><a href="#" class="icon fa-calendar" onclick='document.getElementById("date_extract").submit()'><span class="label">DateRange</span></a></li>
+						<li><a href="#" class="icon fa-random" onclick='document.getElementById("date_random").submit()'><span class="label">RandomDate</span></a></li>
+						<li><a href="#" class="icon fa-search" onclick='$("#jsonadd").hide(); $("#filebox").hide(); $("#removebox").hide(); $("#searchbox").toggle(); $("#searchbox").focus();'></a></li>
+						<li><a href="#" class="icon fa-plus-square-o" onclick='$("#searchbox").hide(); $("#removebox").hide(); $("#filebox").toggle(); $("#jsonadd").toggle(); $("#filebox").focus();'></a></li>
+						<li><a href="#" class="icon fa-minus-square-o" onclick='$("#jsonadd").hide(); $("#searchbox").hide(); $("#filebox").hide(); $("#removebox").toggle(); $("#removebox").focus();'></a></li>
+						<li><form method="post"><input style="display: none" id="searchbox" name="search" type="text" size="25" maxlength="60" /></form></li>
+						<li><form method="post"><input style="display: none" id="removebox" type="submit" name="jsonrem" value="Supprimer les enregistrements de test"></form></li>
+						<li><form method="post" enctype="multipart/form-data"><input style="display: none" id="filebox" name="filebox" type="file" />&#160;<input id="jsonadd" type="submit" name="jsonadd" value="Ajouter les enregistrements"></form></li>
+					</ul>
+					<ul class="copyright">
+						<li><a href="{{httpd_url}}" target="_blank">{{httpd_name}}/</a><a href="{{language_url}}"
+							target="_blank">{{language_name}}/</a><a href="{{db_url}}"
+							target="_blank">{{db_name}}</a></li><li>{{elapsedtime}}</li><li>{{numrows}}</li><li>{{dns_info}}</li>
+					</ul>
+				</div>
+				<div class="right">
+					<ul class="contact">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+						<li><a href="#" class="icon fa-pinterest"><span class="label">Pinterest</span></a></li>
+						<li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li><a href="http://sahores-conseil.com/" target="_blank">&copy; 2016 ArsheOS</a></li>
+						<li>Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		<form method="post" id="concept_extract"><input type="hidden" name="concept" value="extract"></form>
+		<form method="post" id="concept_random"><input type="hidden" name="concept" value="random"></form>
+		<form method="post" id="auteur_extract"><input type="hidden" name="auteur" value="extract"></form>
+		<form method="post" id="auteur_random"><input type="hidden" name="auteur" value="random"></form>
+		<form method="post" id="date_extract"><input type="hidden" name="date" value="extract"></form>
+		<form method="post" id="date_random"><input type="hidden" name="date" value="random"></form>
+
+		<!-- Scripts -->
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.poptrox.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/skel-viewport.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+		<script src="assets/js/main.js"></script>
+		<script src="assets/js/arsheos.js"></script>
+
+	</body>
+
+</html>
